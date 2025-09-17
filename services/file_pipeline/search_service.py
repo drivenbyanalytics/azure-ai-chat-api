@@ -5,7 +5,7 @@ from azure.identity import DefaultAzureCredential
 from azure.search.documents import SearchClient
 from azure.search.documents.models import IndexingResult
 
-from exceptions import SearchIndexingError
+from api.exceptions import SearchIndexingError
 from models.models import SearchDocument
 from settings import settings
 

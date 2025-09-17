@@ -40,8 +40,9 @@ class ProcessFileResult(BaseModel):
 
 # Response models
 class ErrorResponse(BaseModel):
-    detail: str = Field(..., description="Error message explaining what went wrong")
+    status: str = Field(..., description="HTTP status as string, e.g., 'error'")
     code: str = Field(..., description="Error code for programmatic handling")
+    message: str = Field(..., description="Human-readable error message")
 
 
 class UploadFileResponse(BaseModel):

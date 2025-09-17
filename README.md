@@ -38,7 +38,7 @@ Make sure you have the following installed:
 ``` 
 ### 3. Running FastAPI Locally
 ```bash
-    fastapi dev main.py --port 8000
+    fastapi dev api/main.py --port 8000
 ```
 -  main → Python file name (without .py) where app = FastAPI() is defined
 - --port 8000 → port number (can be changed)

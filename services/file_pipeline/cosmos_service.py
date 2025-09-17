@@ -6,7 +6,7 @@ from azure.cosmos import CosmosClient
 from azure.cosmos import exceptions as cosmos_exceptions
 from azure.identity import DefaultAzureCredential
 
-from exceptions import DatabaseError, FileNotFoundError
+from api.exceptions import DatabaseError, FileNotFoundError
 from models.models import FileMetadata
 from settings import settings
 

@@ -8,3 +8,5 @@ azure-search-documents>=11.5.0
 azure-identity>=1.25.0
 langchain-community>=0.3.2
 pydantic-settings>=2.10.0
+PyPDF2>=3.0.0
+python-docx>=1.2.0

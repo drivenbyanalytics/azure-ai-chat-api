@@ -1,4 +1,5 @@
 from fastapi import Request
+from fastapi.exception_handlers import RequestValidationError
 from fastapi.responses import JSONResponse
 
 from models.models import ErrorResponse
@@ -25,8 +26,12 @@ class FileNotFoundError(Exception):
 
 
 def register_exception_handlers(app):
-    def build_response(exc: Exception, code: str = None):
-        return ErrorResponse(detail=str(exc), code=code).model_dump()
+    def build_response(
+        exc: Exception, code: str, status: str = "error", message: str = None
+    ):
+        return ErrorResponse(
+            status=status, code=code, message=message or str(exc)
+        ).model_dump()
 
     @app.exception_handler(FileValidationError)
     async def file_validation_exception_handler(
@@ -66,4 +71,16 @@ def register_exception_handlers(app):
     async def generic_exception_handler(request: Request, exc: Exception):
         return JSONResponse(
             status_code=500, content=build_response(exc, code="INTERNAL_SERVER_ERROR")
+        )
+
+    @app.exception_handler(RequestValidationError)
+    async def validation_exception_handler(
+        request: Request, exc: RequestValidationError
+    ):
+        messages = "; ".join(
+            [f"{err['loc'][-1]}: {err['msg']}" for err in exc.errors()]
+        )
+        return JSONResponse(
+            status_code=422,
+            content=build_response(exc, code="VALIDATION_ERROR", message=messages),
         )
