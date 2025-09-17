@@ -14,7 +14,7 @@ build/
 venv/
 ENV/
 env/
-*.env
+.env
 
 # IDEs & Editors
 .vscode/
