@@ -2,11 +2,11 @@ import datetime
 import uuid
 from typing import Dict, List
 
-from exceptions import FileProcessingError
+from api.exceptions import FileProcessingError
 from models.models import ChunkedEmbedding, ProcessFileResult, SearchDocument
-from services.cosmos_service import CosmosService
-from services.embedding_service import EmbeddingService
-from services.search_service import SearchService
+from services.file_pipeline.cosmos_service import CosmosService
+from services.file_pipeline.embedding_service import EmbeddingService
+from services.file_pipeline.search_service import SearchService
 
 
 class IngestionPipeline:

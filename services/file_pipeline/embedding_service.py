@@ -4,7 +4,7 @@ from azure.identity import DefaultAzureCredential
 from langchain.text_splitter import TokenTextSplitter
 from langchain_openai import AzureOpenAIEmbeddings
 
-from exceptions import FileProcessingError
+from api.exceptions import FileProcessingError
 from settings import settings
 
 
