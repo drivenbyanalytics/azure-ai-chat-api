@@ -1,6 +1,8 @@
 import uuid
 import datetime
+from typing import List
 from settings import settings
+from services.exceptions import FileNotFoundError
 from azure.cosmos import CosmosClient
 from azure.identity import DefaultAzureCredential
 
@@ -14,7 +16,7 @@ class CosmosService:
         database: Reference to the Cosmos DB database.
         container: Reference to the Cosmos DB container where files are stored.
     """
-    
+
     def __init__(self):
         credential = DefaultAzureCredential()
 
@@ -56,3 +58,31 @@ class CosmosService:
             dict: The file item including 'id', 'filename', 'content', and 'created_at'.
         """
         return self.container.read_item(item=file_id, partition_key=file_id)
+
+
+    def list_files(self) -> List[dict]:
+        """
+        Retrieve all files stored in Cosmos DB.
+
+        Returns:
+            List[dict]: A list of file items.
+        """
+        query = "SELECT c.id, c.filename, c.created_at FROM c"
+        items = list(self.container.query_items(query=query, enable_cross_partition_query=True))
+        return items
+
+    def delete_file(self, file_id: str) -> bool:
+        """
+        Delete a file from Cosmos DB by its unique file_id.
+
+        Args:
+            file_id (str): The unique ID of the file to delete.
+
+        Returns:
+            bool: True if deleted, False otherwise.
+        """
+        try:
+            self.container.delete_item(item=file_id, partition_key=file_id)
+            return True
+        except Exception as e:
+            raise FileNotFoundError(file_id)
