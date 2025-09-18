@@ -6,22 +6,44 @@ from models.models import ErrorResponse
 
 
 class FileValidationError(Exception):
+    """Raised when file validation fails."""
+
     pass
 
 
 class FileProcessingError(Exception):
+    """Raised when error happens during file processing."""
+
     pass
 
 
 class DatabaseError(Exception):
+    """Raised when db related error happens."""
+
     pass
 
 
 class SearchIndexingError(Exception):
+    """Raised when search index related error happens."""
+
     pass
 
 
 class FileNotFoundError(Exception):
+    """Raised when file not found."""
+
+    pass
+
+
+class AuthenticationError(Exception):
+    """Raised when username or password is invalid during login."""
+
+    pass
+
+
+class AuthorizationError(Exception):
+    """Raised when a token is missing, invalid, or expired."""
+
     pass
 
 
@@ -83,4 +105,22 @@ def register_exception_handlers(app):
         return JSONResponse(
             status_code=422,
             content=build_response(exc, code="VALIDATION_ERROR", message=messages),
+        )
+
+    @app.exception_handler(AuthenticationError)
+    async def authentication_exception_handler(
+        request: Request, exc: AuthenticationError
+    ):
+        return JSONResponse(
+            status_code=401,
+            content=build_response(exc, code="AUTHENTICATION_ERROR"),
+        )
+
+    @app.exception_handler(AuthorizationError)
+    async def authorization_exception_handler(
+        request: Request, exc: AuthorizationError
+    ):
+        return JSONResponse(
+            status_code=401,
+            content=build_response(exc, code="AUTHORIZATION_ERROR"),
         )
