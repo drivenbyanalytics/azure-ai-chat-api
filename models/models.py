@@ -59,3 +59,12 @@ class ListFilesResponse(BaseModel):
 class DeleteFileResponse(BaseModel):
     file_id: str = Field(..., description="ID of the deleted file")
     deleted: bool = Field(..., description="Whether the file was successfully deleted")
+
+
+class TokenResponse(BaseModel):
+    access_token: str = Field(
+        ..., description="JWT access token for authenticated requests"
+    )
+    token_type: str = Field(
+        "bearer", description="Type of the token, typically 'bearer'"
+    )
