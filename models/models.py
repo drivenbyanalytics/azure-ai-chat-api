@@ -15,15 +15,11 @@ class FileMetadata(BaseModel):
         ..., description="ISO timestamp of when the file was stored"
     )
 
-
-class SearchDocument(BaseModel):
-    chunk_id: str = Field(..., description="Unique ID of the text chunk")
+class ChunkMetadata(BaseModel):
+    """Metadata for document chunks in the vector store."""
+    chunk_id: str = Field(..., description="Unique ID of the chunk")
     file_id: str = Field(..., description="ID of the file this chunk belongs to")
-    chunk_text: str = Field(..., description="Text of the chunk")
-    start_char: int = Field(..., description="Start position of the chunk in the file")
-    end_char: int = Field(..., description="End position of the chunk in the file")
     created_at: str = Field(..., description="ISO timestamp when the chunk was created")
-    contentVector: List[float] = Field(..., description="Embedding vector of the chunk")
 
 
 class ChunkedEmbedding(BaseModel):

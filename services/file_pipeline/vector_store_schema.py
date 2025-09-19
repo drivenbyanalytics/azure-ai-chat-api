@@ -1,0 +1,55 @@
+# search_schema.py
+from azure.search.documents.indexes.models import (
+    SimpleField,
+    SearchableField,
+    SearchField,
+    SearchFieldDataType,
+)
+
+FIELDS = [
+    SimpleField(
+        name="id",
+        type=SearchFieldDataType.String,
+        key=True,
+        filterable=False,
+        retrievable=True,
+        sortable=False,
+        facetable=False,
+    ),
+    SearchableField(
+        name="content",
+        type=SearchFieldDataType.String,
+        searchable=True,
+        filterable=False,
+        retrievable=True,
+        sortable=False,
+        facetable=False,
+        analyzer_name="standard.lucene",
+    ),
+    SearchField(
+        name="content_vector",
+        type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
+        searchable=True,
+        filterable=False,
+        retrievable=False,
+        sortable=False,
+        facetable=False,
+        vector_search_dimensions=1536,
+        vector_search_profile_name="vector-profile-1758207307698",
+    ),
+    SearchableField(
+        name="metadata",
+        type=SearchFieldDataType.String,
+        searchable=True,
+    ),
+    SearchableField(
+        name="file_id",
+        type=SearchFieldDataType.String,
+        searchable=True,
+        filterable=True,
+        retrievable=True,
+        sortable=False,
+        facetable=True,
+        analyzer_name="standard.lucene",
+    )
+]
