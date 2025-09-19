@@ -37,8 +37,8 @@ class VectoreStoreService:
             # Initialize Azure OpenAI embeddings service
             self.embeddings = AzureOpenAIEmbeddings(
                 azure_endpoint=settings.azure_openai_endpoint,
-                azure_deployment=settings.azure_openai_deployment,
-                api_version=settings.azure_openai_api_version,
+                azure_deployment=settings.azure_openai_embedding_deployment,
+                api_version=settings.azure_openai_embedding_api_version,
                 azure_ad_token_provider=lambda: credential.get_token("https://cognitiveservices.azure.com/.default").token,
             )
             
@@ -48,7 +48,7 @@ class VectoreStoreService:
                 azure_search_key=None,  # Using managed identity instead
                 index_name=settings.azure_search_index,
                 embedding_function=self.embeddings.embed_query,
-                search_type="hybrid",  # Use hybrid search for best results
+                search_type="similarity",
                 semantic_configuration_name="default",
                 fields=FIELDS
             )
@@ -139,16 +139,16 @@ class VectoreStoreService:
         except Exception as e:
             raise SearchIndexingError(f"Failed to delete chunks for document {document_id}: {str(e)}")
 
-    def hybrid_search(
+    def similarity_search(
         self, 
         query: str, 
         k: int = 10, 
-        score_threshold: Optional[float] = None,
+        score_threshold: Optional[float] = 0.6,
         filter_expression: Optional[str] = None,
         document_id: Optional[str] = None
     ) -> List[Tuple[Document, float]]:
         """
-        Perform hybrid search combining vector and keyword search.
+        Perform similarity search combining vector and keyword search.
 
         Args:
             query (str): The search query text.
@@ -182,7 +182,7 @@ class VectoreStoreService:
             # Combine filters with AND operator
             combined_filter = " and ".join(filters) if filters else None
             
-            # Perform hybrid search with similarity_search_with_score
+            
             search_kwargs = {
                 "k": k,
             }
@@ -206,4 +206,4 @@ class VectoreStoreService:
             return results
             
         except Exception as e:
-            raise SearchIndexingError(f"Failed to perform hybrid search: {str(e)}")
+            raise SearchIndexingError(f"Failed to perform similarity search: {str(e)}")

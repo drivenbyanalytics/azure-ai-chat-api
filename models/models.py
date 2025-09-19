@@ -1,4 +1,4 @@
-from typing import ClassVar, List
+from typing import ClassVar, List, Optional
 
 from pydantic import BaseModel, Field
 
@@ -68,3 +68,25 @@ class TokenResponse(BaseModel):
     token_type: str = Field(
         "bearer", description="Type of the token, typically 'bearer'"
     )
+
+
+# Chat completion models
+class ChatMessage(BaseModel):
+    role: str = Field(..., description="Role of the message sender: 'user', 'assistant', or 'system'")
+    content: str = Field(..., description="Content of the message")
+
+
+class ChatRequest(BaseModel):
+    question: str = Field(..., description="The user's question or message")
+    chat_history: Optional[List[ChatMessage]] = Field(default=[], description="Previous chat messages")
+
+
+class ContextInfo(BaseModel):
+    content: str = Field(..., description="Snippet of the context content")
+    file_id: str = Field(..., description="ID of the file this context came from")
+    score: float = Field(..., description="Relevance score of the context")
+
+
+class ChatResponse(BaseModel):
+    response: str = Field(..., description="AI-generated response")
+    timestamp: str = Field(..., description="ISO timestamp of the response")

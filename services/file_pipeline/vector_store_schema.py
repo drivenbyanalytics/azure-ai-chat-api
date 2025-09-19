@@ -31,7 +31,6 @@ FIELDS = [
         type=SearchFieldDataType.Collection(SearchFieldDataType.Single),
         searchable=True,
         filterable=False,
-        retrievable=False,
         sortable=False,
         facetable=False,
         vector_search_dimensions=1536,
