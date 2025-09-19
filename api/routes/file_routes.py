@@ -33,7 +33,7 @@ auth_service = AuthService()
 )
 async def upload_file(
     file: UploadFile = Depends(validate_file),
-    #username: str = Depends(auth_service.verify_token),
+    username: str = Depends(auth_service.verify_token),
 ):
     if not (file.filename.endswith((".txt", ".pdf", ".docx"))):
         raise FileValidationError("Only .txt, .docx and .pdf files are supported")

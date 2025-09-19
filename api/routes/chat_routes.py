@@ -16,7 +16,7 @@ vector_store_service = VectoreStoreService()
 @router.post("/", response_model=ChatResponse)
 async def chat_completion(
     request: ChatRequest,
-    #username: str = Depends(auth_service.verify_token),
+    username: str = Depends(auth_service.verify_token),
 ) -> ChatResponse:
     """
     Generate a chat response with optional vector store context.
