@@ -4,6 +4,7 @@ from typing import Optional
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
+from jose.exceptions import ExpiredSignatureError
 
 from api.exceptions import AuthenticationError, AuthorizationError
 from settings import settings
@@ -80,5 +81,7 @@ class AuthService:
             if username is None or username != self.username:
                 raise AuthorizationError("Invalid authentication credentials")
             return username
+        except ExpiredSignatureError:
+            raise AuthorizationError("Token has expired")
         except JWTError as e:
             raise AuthorizationError(f"Token validation error: {str(e)}")
