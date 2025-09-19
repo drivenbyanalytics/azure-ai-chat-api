@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 
 from api.exceptions import register_exception_handlers
-from api.routes.file_routes import router as auth_router
+from api.routes.auth_routes import router as auth_router
 from api.routes.file_routes import router as file_router
 
 app = FastAPI(title="File Ingestion API")
