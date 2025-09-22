@@ -1,6 +1,8 @@
 
 from typing import List, Dict, Any, Optional
 from datetime import datetime
+from typing import Tuple
+
 
 from azure.identity import DefaultAzureCredential
 from langchain_openai import AzureChatOpenAI
@@ -70,7 +72,6 @@ class ChatService:
         except Exception as e:
             raise ChatCompletionError(f"Chat service initialization failed: {str(e)}")
     
-    from typing import Tuple
     def chat_with_context(
         self,
         question: str,
@@ -130,7 +131,6 @@ class ChatService:
         Returns:
             list: List of SystemMessage objects for LangChain
         """
-        from langchain_core.messages import SystemMessage
         if not context_docs:
             return []
         messages = []
