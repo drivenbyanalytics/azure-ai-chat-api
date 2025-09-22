@@ -9,9 +9,12 @@ class Settings(BaseSettings):
     
     # Azure OpenAI
     azure_openai_endpoint: str
-    azure_openai_deployment: str
-    azure_openai_model: str
-    azure_openai_api_version: str
+    azure_openai_embedding_deployment: str
+    azure_openai_embedding_model: str
+    azure_openai_embedding_api_version: str
+    azure_openai_chat_deployment: str
+    azure_openai_chat_model: str
+    azure_openai_chat_api_version: str
 
     # Cosmos DB
     cosmos_db_uri: str

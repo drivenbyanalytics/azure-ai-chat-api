@@ -28,6 +28,11 @@ class SearchIndexingError(Exception):
 
     pass
 
+class ChatCompletionError(Exception):
+    """Raised when error happens during chat completion."""
+
+    pass
+
 
 class FileNotFoundError(Exception):
     """Raised when file not found."""
@@ -81,6 +86,12 @@ def register_exception_handlers(app):
     async def search_exception_handler(request: Request, exc: SearchIndexingError):
         return JSONResponse(
             status_code=500, content=build_response(exc, code="SEARCH_INDEXING_ERROR")
+        )
+    
+    @app.exception_handler(ChatCompletionError)
+    async def chat_exception_handler(request: Request, exc: ChatCompletionError):
+        return JSONResponse(
+            status_code=500, content=build_response(exc, code="CHAT_COMPLETION_ERROR")
         )
 
     @app.exception_handler(FileNotFoundError)

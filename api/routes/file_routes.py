@@ -12,11 +12,11 @@ from models.models import (
 from services.auth_service import AuthService
 from services.file_pipeline.cosmos_service import CosmosService
 from services.file_pipeline.file_validator import validate_file
-from services.file_pipeline.ingestion_pipeline import IngestionPipeline
+from services.file_pipeline.file_service import FileService
 from services.file_reader.file_reader import FileReader
 
 router = APIRouter()
-pipeline = IngestionPipeline()
+file_service = FileService()
 cosmos_service = CosmosService()
 file_reader = FileReader()
 auth_service = AuthService()
@@ -40,7 +40,7 @@ async def upload_file(
 
     content = file_reader.read_file(file)
 
-    result = pipeline.process_file(file.filename, content)
+    result = file_service.process_file(file.filename, content)
     return UploadFileResponse(**result)
 
 
@@ -92,5 +92,5 @@ async def delete_file(
     file_id: str = Path(..., description="The ID of the file to delete"),
     username: str = Depends(auth_service.verify_token),
 ):
-    success = cosmos_service.delete_file(file_id)
+    success = file_service.delete_file(file_id)
     return DeleteFileResponse(file_id=file_id, deleted=success)
