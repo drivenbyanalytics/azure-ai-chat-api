@@ -26,15 +26,11 @@ jobs:
 
       - name: Create and start virtual environment
         run: |
-          python -m venv antenv
-          source antenv/bin/activate
-          echo "$VIRTUAL_ENV/bin" >> $GITHUB_PATH
+          python -m venv venv
+          source venv/bin/activate
       
       - name: Install dependencies
-        run: |
-          source antenv/bin/activate
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
+        run: pip install -r requirements.txt
         
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
 
@@ -72,3 +68,4 @@ jobs:
         with:
           app-name: 'app-api-chatbot-westeu-prod'
           slot-name: 'Production'
+          startup-command: 'gunicorn --worker-class uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 --timeout 600 api.main:app'
