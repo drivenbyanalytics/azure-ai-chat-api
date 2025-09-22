@@ -26,8 +26,6 @@ async def chat_completion(
     
     Returns enriched AI response with context information.
     """
-        
-    # Convert chat history to dict format expected by service
 
     retrieved_context = vector_store_service.similarity_search(
         query=request.question)

@@ -1,7 +1,6 @@
 
 from typing import List, Dict, Any, Optional
 from datetime import datetime
-import logging
 
 from azure.identity import DefaultAzureCredential
 from langchain_openai import AzureChatOpenAI
