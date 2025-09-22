@@ -68,4 +68,3 @@ jobs:
         with:
           app-name: 'app-api-chatbot-westeu-prod'
           slot-name: 'Production'
-          startup-command: 'gunicorn --worker-class uvicorn.workers.UvicornWorker -b 0.0.0.0:8000 --timeout 600 api.main:app'
